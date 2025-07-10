@@ -23,6 +23,11 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Event Template Server Up and Runing...');
+});
+
+
 // Routes
 app.use('/api/attendees', attendeesRoutes);
 app.use('/api/tables', tablesRoutes);

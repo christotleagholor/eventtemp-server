@@ -56,6 +56,19 @@ exports.unassignAttendee = async (attendeeId) => {
   }
 };
 
+exports.moveAttendee = async (attendeeId, newTableId) => {
+  const [attendee, table] = await Promise.all([
+    Attendee.findOne({ id: attendeeId }),
+    Table.exists({ id: newTableId })
+  ]);
+
+  if (!attendee) throw new Error('Attendee not found');
+  if (!table) throw new Error('Table does not exist');
+
+  attendee.tableId = newTableId;
+  return await attendee.save();
+};
+
 exports.resetAttendees = async () => {
   await Attendee.updateMany(
     { assigned: true },
